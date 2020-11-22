@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Container, Row, Col } from "react-bootstrap";
+
+import Calculation from "./Calculation";
+import AccountType from "./Constants";
+import ProfileInfo from "./ProfileInfo";
+import { Button } from "react-bootstrap";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <Row>
+        <Col>
+          <ProfileInfo></ProfileInfo>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Calculation acctType={AccountType.PostTax}></Calculation>
+        </Col>
+        <Col>
+          <Calculation acctType={AccountType.PreTax}></Calculation>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Button variant="secondary">Reset</Button>
+          <Button variant="primary">Calculate</Button>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 
