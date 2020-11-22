@@ -2,16 +2,7 @@ import NumberFormat from "react-number-format";
 import { Form } from "react-bootstrap";
 import React, { useState } from "react";
 
-function ProfileInfo() {
-  const [startAge, setStartAge] = useState(0);
-  const startAgeChanged = (e) => setStartAge(e.target.value);
-
-  const [endAge, setEndAge] = useState(0);
-  const endAgeChanged = (e) => setEndAge(e.target.value);
-
-  const [percent, setPercent] = useState(0);
-  const percentChanged = (e) => setPercent(e.target.value);
-
+function ProfileInfo(props) {
   return (
     <>
       <h1>Investment Calculator</h1>
@@ -19,10 +10,11 @@ function ProfileInfo() {
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Enter your current age.</Form.Label>
           <NumberFormat
+            placeholder="25"
             className="form-control"
-            value={startAge}
+            value={props.startAge}
             displayType={"input"}
-            onChange={startAgeChanged}
+            onChange={props.startAgeChanged}
             decimalScale="0"
             allowNegative={false}
           />
@@ -32,9 +24,10 @@ function ProfileInfo() {
           <Form.Label>Enter the age you plan to retire.</Form.Label>
           <NumberFormat
             className="form-control"
-            value={endAge}
+            placeholder="65"
+            value={props.endAge}
             displayType={"input"}
-            onChange={endAgeChanged}
+            onChange={props.endAgeChanged}
             decimalScale="0"
             allowNegative={false}
           />
@@ -46,11 +39,12 @@ function ProfileInfo() {
         <Form.Group controlId="formBasicPassword">
           <Form.Label>What do you think your annual return will be?</Form.Label>
           <NumberFormat
+            placeholder="8%"
             className="form-control"
-            value={percent}
+            value={props.percent}
             displayType={"input"}
             thousandSeparator={false}
-            onChange={percentChanged}
+            onChange={props.percentChanged}
             suffix="%"
             decimalScale="2"
           />
