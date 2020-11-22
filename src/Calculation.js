@@ -11,11 +11,6 @@ function Calculation(props) {
     }
     return parseFloat(val.replace(/\$|,/g, ""));
   }
-  const [amountSaved, setAmountSaved] = useState(0);
-  const amountSavedChanged = (e) => setAmountSaved(e.target.value);
-
-  const [monthlySaved, setMonthlySaved] = useState(0);
-  const monthlySavedChanged = (e) => setMonthlySaved(e.target.value);
 
   return (
     <>
@@ -26,12 +21,13 @@ function Calculation(props) {
             How much {props.acctType} have you saved for retirement?
           </Form.Label>
           <NumberFormat
+            placeholder="$1000"
             className="form-control"
-            value={amountSaved}
+            value={props.amountSaved}
             displayType={"input"}
             thousandSeparator={true}
             prefix={"$"}
-            onChange={amountSavedChanged}
+            onChange={props.amountSavedChanged}
             decimalScale="0"
           />
           <Form.Text className="text-muted">
@@ -45,11 +41,12 @@ function Calculation(props) {
           </Form.Label>
           <NumberFormat
             className="form-control"
-            value={monthlySaved}
+            placeholder="$1000"
+            value={props.monthlySaved}
             displayType={"input"}
             thousandSeparator={true}
             prefix={"$"}
-            onChange={monthlySavedChanged}
+            onChange={props.monthlySavedChanged}
             decimalScale="0"
           />
           <Form.Text className="text-muted">
