@@ -1,6 +1,18 @@
 import { Container, Row, Col } from "react-bootstrap";
+import NumberFormat from "react-number-format";
+import { useState } from "react";
 
 function Results(props) {
+  const [showAmortization, setShowAmortization] = useState(false);
+  const [amortizationButtonText, setAmortizationButtonText] = useState(
+    "Show Amortization"
+  );
+  const toggleAmortization = () => {
+    setAmortizationButtonText(
+      !showAmortization ? "Hide Amortization" : "Show Amortization"
+    );
+    setShowAmortization(!showAmortization);
+  };
   if (
     props.startAge &&
     props.endAge &&
@@ -8,29 +20,65 @@ function Results(props) {
     props.monthlySaved &&
     props.interest
   ) {
-    let rows = getRows(props);
-    console.log(rows);
-    const rowElements = rows.map((row) => (
-      <ResultsRow
-        month={row.month}
-        balance={row.balance}
-        age={row.age}
-      ></ResultsRow>
-    ));
-    return rowElements;
+    let amortTable = null;
+    if (showAmortization) {
+      amortTable = showAmortizationDisplay(props);
+    }
+    return (
+      <>
+        <AmortizationButton
+          amortizationButtonText={amortizationButtonText}
+          toggleAmortization={toggleAmortization}
+        />
+        {amortTable}
+      </>
+    );
   } else {
     return "";
   }
 }
-
+function AmortizationButton(props) {
+  return (
+    <a href="#" onClick={props.toggleAmortization}>
+      {props.amortizationButtonText}
+    </a>
+  );
+}
+function showAmortizationDisplay(props) {
+  let rows = getRows(props);
+  console.log(rows);
+  const rowElements = rows.map((row) => (
+    <ResultsRow
+      key={row.monthYear}
+      monthYear={row.monthYear}
+      balance={row.balance}
+      age={row.age}
+    ></ResultsRow>
+  ));
+  return (
+    <>
+      <Row>
+        <Col lg="2">Date</Col>
+        <Col lg="2">Balance</Col>
+        <Col>Age</Col>
+      </Row>
+      {rowElements}
+    </>
+  );
+}
 function ResultsRow(props) {
   return (
     <Row>
-      <Col lg="6">
-        {props.month}&nbsp;&nbsp;&nbsp;
-        {props.balance}&nbsp;&nbsp;&nbsp;
-        {props.age}
+      <Col lg="2">{props.monthYear}</Col>
+      <Col lg="2">
+        <NumberFormat
+          value={props.balance}
+          displayType={"text"}
+          thousandSeparator={true}
+          prefix={"$"}
+        />
       </Col>
+      <Col>{props.age}</Col>
     </Row>
   );
 }
@@ -61,7 +109,7 @@ function getRows(props) {
         Math.round(balance * (1 + monthlyInterestRate), 2) + monthlySaved;
 
       ResultsRow.push({
-        month: `${month}/${currentYear}`,
+        monthYear: `${month}/${currentYear}`,
         balance: balance,
         age: age,
       });

@@ -70,6 +70,13 @@ function App() {
               monthlySavedChanged={(e) => setMonthlySaved(e.target.value)}
               acctType={AccountType.PreTax}
             ></Calculation>
+            <Results
+              startAge={startAge}
+              endAge={endAge}
+              amountSaved={amountSaved}
+              monthlySaved={monthlySaved}
+              interest={percent}
+            ></Results>
           </Col>
         </Row>
         <Row>
