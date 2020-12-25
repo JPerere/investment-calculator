@@ -21,16 +21,26 @@ function Results(props) {
     props.interest
   ) {
     let amortTable = null;
+    let rows = getRows(props);
+    const lastItem = rows[rows.length - 1];
     if (showAmortization) {
-      amortTable = showAmortizationDisplay(props);
+      amortTable = showAmortizationDisplay(props, rows);
     }
     return (
       <>
+        <b><label style={{ marginRight: 10 }}>Total At Retirement:({props.endAge})</label></b>
+        <NumberFormat
+          value={lastItem.balance}
+          displayType={"text"}
+          thousandSeparator={true}
+          prefix={"$"}
+        />
+        <br />
         <AmortizationButton
           amortizationButtonText={amortizationButtonText}
           toggleAmortization={toggleAmortization}
         />
-        {amortTable}
+        { amortTable}
       </>
     );
   } else {
@@ -44,9 +54,8 @@ function AmortizationButton(props) {
     </a>
   );
 }
-function showAmortizationDisplay(props) {
-  let rows = getRows(props);
-  console.log(rows);
+function showAmortizationDisplay(props, rows) {
+
   const rowElements = rows.map((row) => (
     <ResultsRow
       key={row.monthYear}
@@ -84,19 +93,16 @@ function ResultsRow(props) {
 }
 
 function getRows(props) {
-  console.log("props;");
-  console.log(props);
+
   let interestRate = props.interest.replace("%", "");
   const monthlyInterestRate = parseFloat(interestRate) / 100 / 12;
-  console.log("Monthly interstRate:", monthlyInterestRate);
+
   let balance = parseFloat(
     props.amountSaved.replace("$", "").replace(",", "").replace(".", "")
   );
   let monthlySaved = parseFloat(
     props.monthlySaved.replace("$", "").replace(",", "").replace(".", "")
   );
-  console.log("balance:");
-  console.log(balance);
 
   let ResultsRow = [];
 

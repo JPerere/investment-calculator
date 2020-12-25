@@ -6,21 +6,37 @@ import AccountType from "./Constants";
 import ProfileInfo from "./ProfileInfo";
 import { Button, Modal } from "react-bootstrap";
 import { useState } from "react";
+import React from 'react';
 import Results from "./Results";
 
+
 function App() {
-  const [amountRothSaved, setAmountRothSaved] = useState("");
-  const [monthlyRothSaved, setMonthlyRothSaved] = useState("");
-  const [amountSaved, setAmountSaved] = useState("");
-  const [monthlySaved, setMonthlySaved] = useState("");
-  const [startAge, setStartAge] = useState("");
-  const [endAge, setEndAge] = useState("");
-  const [percent, setPercent] = useState("");
+
+  const useStateWithLocalStorage = localStorageKey => {
+    const [value, setValue] = React.useState(
+      localStorage.getItem(localStorageKey) || ''
+    );
+
+    React.useEffect(() => {
+      localStorage.setItem(localStorageKey, value);
+    }, [value]);
+
+    return [value, setValue];
+  };
+
+  const [amountRothSaved, setAmountRothSaved] = useStateWithLocalStorage("rothSaved");
+  const [monthlyRothSaved, setMonthlyRothSaved] = useStateWithLocalStorage("monthlyRothSaved");
+  const [amountSaved, setAmountSaved] = useStateWithLocalStorage("amountSaved");
+  const [monthlySaved, setMonthlySaved] = useStateWithLocalStorage("monthlySaved");
+  const [startAge, setStartAge] = useStateWithLocalStorage("startAge");
+  const [endAge, setEndAge] = useStateWithLocalStorage("endAge");
+  const [percent, setPercent] = useStateWithLocalStorage("expectedReturn");
   const [showConfirmReset, setShowConfirmReset] = useState(false);
   const handleCloseReset = () => setShowConfirmReset(false);
   const handleShowReset = () => setShowConfirmReset(true);
 
   const resetValues = () => {
+    localStorage.clear();
     setAmountRothSaved("");
     setMonthlyRothSaved("");
     setAmountSaved("");
