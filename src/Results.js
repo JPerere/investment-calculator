@@ -28,7 +28,11 @@ function Results(props) {
     }
     return (
       <>
-        <b><label style={{ marginRight: 10 }}>Total At Retirement:({props.endAge})</label></b>
+        <b>
+          <label style={{ marginRight: 10 }}>
+            Total At Retirement:({props.endAge})
+          </label>
+        </b>
         <NumberFormat
           value={lastItem.balance}
           displayType={"text"}
@@ -40,7 +44,7 @@ function Results(props) {
           amortizationButtonText={amortizationButtonText}
           toggleAmortization={toggleAmortization}
         />
-        { amortTable}
+        {amortTable}
       </>
     );
   } else {
@@ -55,7 +59,6 @@ function AmortizationButton(props) {
   );
 }
 function showAmortizationDisplay(props, rows) {
-
   const rowElements = rows.map((row) => (
     <ResultsRow
       key={row.monthYear}
@@ -67,9 +70,15 @@ function showAmortizationDisplay(props, rows) {
   return (
     <>
       <Row>
-        <Col lg="2">Date</Col>
-        <Col lg="2">Balance</Col>
-        <Col>Age</Col>
+        <Col>
+          <b>Date</b>
+        </Col>
+        <Col>
+          <b>Balance</b>
+        </Col>
+        <Col>
+          <b>Age</b>
+        </Col>
       </Row>
       {rowElements}
     </>
@@ -78,8 +87,8 @@ function showAmortizationDisplay(props, rows) {
 function ResultsRow(props) {
   return (
     <Row>
-      <Col lg="2">{props.monthYear}</Col>
-      <Col lg="2">
+      <Col>{props.monthYear}</Col>
+      <Col>
         <NumberFormat
           value={props.balance}
           displayType={"text"}
@@ -93,7 +102,6 @@ function ResultsRow(props) {
 }
 
 function getRows(props) {
-
   let interestRate = props.interest.replace("%", "");
   const monthlyInterestRate = parseFloat(interestRate) / 100 / 12;
 
